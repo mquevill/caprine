@@ -10,6 +10,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
+      - uses: c-hive/gha-npm-cache@v1
       - run: npm ci
       - run: npm test
   build:
@@ -23,6 +24,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
+      - uses: c-hive/gha-npm-cache@v1
       - uses: samuelmeuli/action-snapcraft@v1
         if: startsWith(matrix.os, 'ubuntu')
         with:
