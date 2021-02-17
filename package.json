@@ -1,10 +1,10 @@
 {
 	"name": "caprine",
 	"productName": "Caprine",
-	"version": "2.52.6",
+	"version": "2.52.7",
 	"description": "Elegant Facebook Messenger desktop app",
 	"license": "MIT",
-	"repository": "dusansimic/caprine",
+	"repository": "dusansimic/caprine-playground",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
