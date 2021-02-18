@@ -1,7 +1,7 @@
 {
 	"name": "caprine",
 	"productName": "Caprine",
-	"version": "2.52.9",
+	"version": "2.52.10",
 	"description": "Elegant Facebook Messenger desktop app",
 	"license": "MIT",
 	"repository": "dusansimic/caprine-playground",
@@ -20,8 +20,6 @@
 		"test": "npm run lint",
 		"start": "tsc && electron .",
 		"build": "tsc",
-		"pack": "tsc && electron-builder --dir",
-		"dist": "tsc && electron-builder --macos --linux --windows --publish=always",
 		"release": "np && npm run publish-snap",
 		"publish-snap": "del dist && tsc && electron-builder --linux && snapcraft push --release=stable dist/*.snap"
 	},
@@ -131,7 +129,15 @@
 				"camera",
 				"removable-media"
 			],
-			"publish": "github"
+			"publish": [
+				{
+					"provider": "github"
+				},
+				{
+					"provider": "snapStore",
+					"channels": ["stable"]
+				}
+			]
 		},
 		"win": {
 			"verifyUpdateCodeSignature": false,
