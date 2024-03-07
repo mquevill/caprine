@@ -34,6 +34,36 @@ html.dark-mode body.UIPage_LoggedOut ._4-u5 /* 2FA screen */ {
 	background-color: var(--container-dark-color);
 }
 
+/* Login menu items */
+html.dark-mode ._4vo5 {
+	color: var(--base-seventy) !important;
+}
+
+/* Login menu button and x, narrow window */
+html.dark-mode ._8orf {
+	color: var(--base-seventy);
+}
+html.dark-mode ._8otd ._8org {
+	stroke: var(--base-seventy);
+}
+
+/* Login menu background, narrow window */
+html.dark-mode ._8otd,
+html.dark-mode ._1-kf._1-kg {
+	background: var(--container-color);
+}
+
+html.dark-mode ._8otd ._4qfn {
+	background: var(--container-dark-color);
+}
+
+/* Login footer text */
+html.dark-mode ._8vbg,
+html.dark-mode ._6aje,
+html.dark-mode ._8nni {
+	color: var(--base-seventy) !important;
+}
+
 /* Login title and names */
 html.dark-mode ._5hy4,
 html.dark-mode ._3403 {
@@ -41,10 +71,12 @@ html.dark-mode ._3403 {
 }
 
 /* Login inputs */
+html.dark-mode ._6aup ._55r1,
 html.dark-mode ._3v_o ._55r1 {
 	background: var(--base-five);
 	color: var(--base-seventy);
 }
+html.dark-mode ._6aup ._55r1::-webkit-input-placeholder,
 html.dark-mode ._3v_o ._55r1::-webkit-input-placeholder {
 	color: var(--base-thirty) !important;
 }

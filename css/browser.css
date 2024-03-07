@@ -58,6 +58,16 @@ body {
 	display: none;
 }
 
+/* Login: "Messenger App" menu item */
+._2fux ._4qfn:nth-of-type(2) {
+	display: none !important;
+}
+
+/* Login: Download app sources */
+._4zlw {
+	display: none;
+}
+
 /* Don't show outline on clickable elements & input fields */
 *[role='button'],
 *[type='text'],
