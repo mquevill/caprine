@@ -34,19 +34,24 @@ html.dark-mode body.UIPage_LoggedOut ._4-u5 /* 2FA screen */ {
 	background-color: var(--container-dark-color);
 }
 
+/* Login links at top of page */
+html.dark-mode ._4qfn div,
+html.dark-mode ._4qfn p,
+html.dark-mode ._4qfn path {
+	color: var(--primary-text);
+	fill: var(--primary-text);
+}
+
 /* Login title and names */
 html.dark-mode ._5hy4,
 html.dark-mode ._3403 {
 	color: var(--base-fourty) !important;
 }
 
-/* Login inputs */
-html.dark-mode ._3v_o ._55r1 {
+/* Loging input fields */
+html.dark-mode ._6auq._agho input {
 	background: var(--base-five);
-	color: var(--base-seventy);
-}
-html.dark-mode ._3v_o ._55r1::-webkit-input-placeholder {
-	color: var(--base-thirty) !important;
+	color: var(--primary-text);
 }
 
 /* "Keep me signed in" checkbox */
