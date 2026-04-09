@@ -37,14 +37,6 @@ export default async function updateMenu(): Promise<Menu> {
 		},
 	};
 
-	const newRoomItem: MenuItemConstructorOptions = {
-		label: 'New Room',
-		accelerator: 'CommandOrControl+O',
-		click() {
-			sendAction('new-room');
-		},
-	};
-
 	const switchItems: MenuItemConstructorOptions[] = [
 		{
 			label: 'Log Out',
@@ -764,7 +756,6 @@ ${debugInfo()}`;
 			role: 'fileMenu',
 			submenu: [
 				newConversationItem,
-				newRoomItem,
 				{
 					type: 'separator',
 				},
@@ -798,7 +789,6 @@ ${debugInfo()}`;
 			role: 'fileMenu',
 			submenu: [
 				newConversationItem,
-				newRoomItem,
 				{
 					type: 'separator',
 				},
