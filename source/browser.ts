@@ -101,7 +101,7 @@ ipc.answerMain('show-preferences', async () => {
 });
 
 ipc.answerMain('new-conversation', async () => {
-	document.querySelector<HTMLElement>('[href="/new/"]')!.click();
+	document.querySelector<HTMLElement>('[href="/messages/new/"]')!.click();
 });
 
 ipc.answerMain('new-room', async () => {
