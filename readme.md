@@ -6,12 +6,12 @@
 	</a>
 	<h1>Caprine</h1>
 	<p>
-		<b>Elegant Facebook Messenger desktop app</b>
+		<b>Elegant Facebook Messages desktop app</b>
 	</p>
 	<br>
 	<br>
 	<p>
-		Caprine is an unofficial and privacy-focused Facebook Messenger app with many useful features.
+		Caprine is an unofficial and privacy-focused Facebook Messages app with many useful features.
 	</p>
 	<b>
 		Caprine is feature complete. However, we welcome contributions for improvements and bug fixes.
@@ -33,7 +33,6 @@
 - [Privacy-focused](#privacy)
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Menu bar mode](#menu-bar-mode-macos-only-)\*
-- [Work Chat support](#work-chat-support)
 - [Code blocks](#code-blocks)
 - [Touch Bar support](#touch-bar-support-macos-only)\*
 - [Custom styles](#custom-styles)

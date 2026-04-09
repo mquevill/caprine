@@ -2,9 +2,9 @@
 Type=Application
 Name=Caprine
 GenericName=IM Client
-Comment=Elegant Facebook Messenger desktop app
+Comment=Elegant Facebook Messages desktop app
 Icon=caprine
 Exec=caprine
-Keywords=Messenger;Facebook;Chat;
+Keywords=Messages;Facebook;Messenger;Chat;
 Categories=GTK;InstantMessaging;Network;
 StartupNotify=true

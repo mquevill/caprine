@@ -2,7 +2,7 @@
 	"name": "caprine",
 	"productName": "Caprine",
 	"version": "2.61.0",
-	"description": "Elegant Facebook Messenger desktop app",
+	"description": "Elegant Facebook Messages desktop app",
 	"license": "MIT",
 	"repository": "sindresorhus/caprine",
 	"author": {
@@ -154,8 +154,8 @@
 				"deb"
 			],
 			"icon": "build/icons/",
-			"synopsis": "Elegant Facebook Messenger desktop app",
-			"description": "Caprine is an unofficial and privacy focused Facebook Messenger app with many useful features.",
+			"synopsis": "Elegant Facebook Messages desktop app",
+			"description": "Caprine is an unofficial and privacy focused Facebook Messages app with many useful features.",
 			"category": "Network;Chat"
 		},
 		"snap": {

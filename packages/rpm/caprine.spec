@@ -4,7 +4,7 @@
 Name:           caprine
 Version:        2.61.0
 Release:        1%{?dist}
-Summary:        Elegant Facebook Messenger desktop app
+Summary:        Elegant Facebook Messages desktop app
 
 License:        MIT
 URL:            https://github.com/sindresorhus/caprine/
@@ -16,7 +16,7 @@ BuildRequires:  npm
 BuildRequires:  nodejs >= 20.0.0
 
 %description
-Caprine is an unofficial and privacy-focused Facebook Messenger app with many useful features.
+Caprine is an unofficial and privacy-focused Facebook Messages app with many useful features.
 
 %prep
 %autosetup

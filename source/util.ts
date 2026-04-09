@@ -49,10 +49,8 @@ export function showRestartDialog(message: string): void {
 	}
 }
 
-export const messengerDomain = config.get('useWorkChat') ? 'facebook.com' : 'messenger.com';
-
 export function stripTrackingFromUrl(url: string): string {
-	const trackingUrlPrefix = `https://l.${messengerDomain}/l.php`;
+	const trackingUrlPrefix = 'https://l.facebook.com/l.php';
 	if (url.startsWith(trackingUrlPrefix)) {
 		url = new URL(url).searchParams.get('u')!;
 	}

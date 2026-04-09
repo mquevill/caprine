@@ -123,11 +123,11 @@ async function getLabel(element: HTMLElement): Promise<string> {
 	return element.textContent ?? '';
 }
 
-async function createConversationNewDesign(element: HTMLElement): Promise<Conversation> {
+async function createConversation(element: HTMLElement): Promise<Conversation> {
 	const conversation: Partial<Conversation> = {};
 	// TODO: Exclude muted conversations
 	/*
-	const muted = Boolean(element.querySelector(selectors.muteIconNewDesign));
+	const muted = Boolean(element.querySelector(selectors.muteIcon));
 	*/
 
 	conversation.selected = Boolean(element.querySelector('[role=row] [role=link] > div:only-child'));
@@ -159,7 +159,7 @@ async function createConversationList(): Promise<Conversation[]> {
 	// Remove last element from childer list
 	elements.splice(-1, 1);
 
-	const conversations: Conversation[] = await Promise.all(elements.map(async element => createConversationNewDesign(element)));
+	const conversations: Conversation[] = await Promise.all(elements.map(async element => createConversation(element)));
 
 	return conversations;
 }

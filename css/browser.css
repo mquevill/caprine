@@ -53,11 +53,6 @@ body {
 	margin-left: 60px;
 }
 
-/* Hide footer at login view */
-._210n {
-	display: none;
-}
-
 /* Don't show outline on clickable elements & input fields */
 *[role='button'],
 *[type='text'],

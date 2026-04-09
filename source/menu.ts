@@ -47,26 +47,6 @@ export default async function updateMenu(): Promise<Menu> {
 
 	const switchItems: MenuItemConstructorOptions[] = [
 		{
-			label: 'Switch to Work Chat…',
-			accelerator: 'CommandOrControl+Shift+2',
-			visible: !config.get('useWorkChat'),
-			click() {
-				config.set('useWorkChat', true);
-				app.relaunch();
-				app.quit();
-			},
-		},
-		{
-			label: 'Switch to Messenger…',
-			accelerator: 'CommandOrControl+Shift+1',
-			visible: config.get('useWorkChat'),
-			click() {
-				config.set('useWorkChat', false);
-				app.relaunch();
-				app.quit();
-			},
-		},
-		{
 			label: 'Log Out',
 			click() {
 				sendAction('log-out');
@@ -759,7 +739,7 @@ ${debugInfo()}`;
 				submenu: preferencesSubmenu,
 			},
 			{
-				label: 'Messenger Preferences…',
+				label: 'Messages Preferences…',
 				accelerator: 'Command+,',
 				click() {
 					sendAction('show-preferences');
@@ -827,7 +807,7 @@ ${debugInfo()}`;
 					submenu: preferencesSubmenu,
 				},
 				{
-					label: 'Messenger Settings',
+					label: 'Messages Settings',
 					accelerator: 'Control+,',
 					click() {
 						sendAction('show-preferences');

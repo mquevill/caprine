@@ -28,7 +28,6 @@ import tray from './tray';
 import {
 	sendAction,
 	sendBackgroundAction,
-	messengerDomain,
 	stripTrackingFromUrl,
 } from './util';
 import {process as processEmojiUrl} from './emoji';
@@ -39,7 +38,7 @@ import {caprineIconPath} from './constants';
 ipc.setMaxListeners(100);
 
 electronDebug({
-	isEnabled: true, // TODO: This is only enabled to allow `Command+R` because messenger.com sometimes gets stuck after computer waking up
+	isEnabled: true, // TODO: This is only enabled to allow `Command+R` because facebook.com sometimes gets stuck after computer waking up
 	showDevTools: false,
 });
 
@@ -173,7 +172,7 @@ function enableHiresResources(): void {
 		return;
 	}
 
-	const filter = {urls: [`*://*.${messengerDomain}/`]};
+	const filter = {urls: ['*://*.facebook.com/']};
 
 	session.defaultSession.webRequest.onBeforeSendHeaders(
 		filter,
@@ -197,10 +196,10 @@ function enableHiresResources(): void {
 function initRequestsFiltering(): void {
 	const filter = {
 		urls: [
-			`*://*.${messengerDomain}/*typ.php*`, // Type indicator blocker
-			`*://*.${messengerDomain}/*change_read_status.php*`, // Seen indicator blocker
-			`*://*.${messengerDomain}/*delivery_receipts*`, // Delivery receipts indicator blocker
-			`*://*.${messengerDomain}/*unread_threads*`, // Delivery receipts indicator blocker
+			'*://*.facebook.com/*typ.php*', // Type indicator blocker
+			'*://*.facebook.com/*change_read_status.php*', // Seen indicator blocker
+			'*://*.facebook.com/*delivery_receipts*', // Delivery receipts indicator blocker
+			'*://*.facebook.com/*unread_threads*', // Delivery receipts indicator blocker
 			'*://*.fbcdn.net/images/emoji.php/v9/*', // Emoji
 			'*://*.facebook.com/images/emoji.php/v9/*', // Emoji
 		],
@@ -236,7 +235,7 @@ function initRequestsFiltering(): void {
 function setUserLocale(): void {
 	const userLocale = bestFacebookLocaleFor(app.getLocale().replace('-', '_'));
 	const cookie = {
-		url: 'https://www.messenger.com/',
+		url: 'https://www.facebook.com/',
 		name: 'locale',
 		secure: true,
 		value: userLocale,
@@ -261,10 +260,7 @@ function setNotificationsMute(status: boolean): void {
 function createMainWindow(): BrowserWindow {
 	const lastWindowState = config.get('lastWindowState');
 
-	// Messenger or Work Chat
-	const mainURL = config.get('useWorkChat')
-		? 'https://work.facebook.com/chat'
-		: 'https://www.messenger.com/login/';
+	const mainURL = 'https://www.facebook.com/messages/';
 
 	const win = new BrowserWindow({
 		title: app.name,
@@ -446,12 +442,6 @@ function createMainWindow(): BrowserWindow {
 			}
 		}
 
-		if (config.get('useWorkChat') && existsSync(path.join(cssPath, 'workchat.css'))) {
-			webContents.insertCSS(
-				readFileSync(path.join(cssPath, 'workchat.css'), 'utf8'),
-			);
-		}
-
 		if (existsSync(path.join(app.getPath('userData'), 'custom.css'))) {
 			webContents.insertCSS(readFileSync(path.join(app.getPath('userData'), 'custom.css'), 'utf8'));
 		}
@@ -532,41 +522,20 @@ function createMainWindow(): BrowserWindow {
 	});
 
 	webContents.on('will-navigate', async (event, url) => {
-		const isMessengerDotCom = (url: string): boolean => {
-			const {hostname} = new URL(url);
-			return hostname.endsWith('.messenger.com');
-		};
+		const {hostname, pathname} = new URL(url);
 
-		const isTwoFactorAuth = (url: string): boolean => {
-			const twoFactorAuthURL = 'https://www.facebook.com/checkpoint';
-			return url.startsWith(twoFactorAuthURL);
-		};
+		if (hostname === 'www.facebook.com') {
+			const allowedPaths = [
+				'/messages',
+				'/login',
+				'/checkpoint',
+				'/two_step_verification',
+				'/two_factor',
+			];
 
-		const isWorkChat = (url: string): boolean => {
-			const {hostname, pathname} = new URL(url);
-
-			if (hostname === 'work.facebook.com' || hostname === 'work.workplace.com') {
-				return true;
+			if (allowedPaths.some(path => pathname.startsWith(path))) {
+				return;
 			}
-
-			if (
-				// Example: https://company-name.facebook.com/login or
-				//   		https://company-name.workplace.com/login
-				(hostname.endsWith('.facebook.com') || hostname.endsWith('.workplace.com'))
-				&& (pathname.startsWith('/login') || pathname.startsWith('/chat'))
-			) {
-				return true;
-			}
-
-			if (hostname === 'login.microsoftonline.com') {
-				return true;
-			}
-
-			return false;
-		};
-
-		if (isMessengerDotCom(url) || isTwoFactorAuth(url) || isWorkChat(url)) {
-			return;
 		}
 
 		event.preventDefault();
@@ -664,7 +633,6 @@ ipc.answerRenderer(
 
 type ThemeSource = typeof nativeTheme.themeSource;
 
-ipc.answerRenderer<undefined, StoreType['useWorkChat']>('get-config-useWorkChat', async () => config.get('useWorkChat'));
 ipc.answerRenderer<undefined, StoreType['showMessageButtons']>('get-config-showMessageButtons', async () => config.get('showMessageButtons'));
 ipc.answerRenderer<undefined, ThemeSource>('get-config-theme', async () => config.get('theme'));
 ipc.answerRenderer<undefined, StoreType['privateMode']>('get-config-privateMode', async () => config.get('privateMode'));

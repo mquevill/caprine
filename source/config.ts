@@ -32,7 +32,6 @@ export type StoreType = {
 		deliveryReceipt: boolean;
 	};
 	emojiStyle: EmojiStyle;
-	useWorkChat: boolean;
 	sidebar: 'default' | 'hidden' | 'narrow' | 'wide';
 	autoHideMenuBar: boolean;
 	autoUpdate: boolean;
@@ -165,10 +164,6 @@ const schema: Store.Schema<StoreType> = {
 		type: 'string',
 		enum: ['native', 'facebook-3-0', 'messenger-1-0', 'facebook-2-2'],
 		default: 'facebook-3-0',
-	},
-	useWorkChat: {
-		type: 'boolean',
-		default: false,
 	},
 	sidebar: {
 		type: 'string',

@@ -40,15 +40,6 @@ async function withMenu(
 	await callback();
 }
 
-async function isNewSidebar(): Promise<boolean> {
-	// TODO: stopOnDomReady might not be needed
-	await elementReady(selectors.leftSidebar, {stopOnDomReady: false});
-
-	const sidebars = document.querySelectorAll<HTMLElement>(selectors.leftSidebar);
-
-	return sidebars.length === 2;
-}
-
 async function withSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
 	// Wait for navigation pane buttons to show up
 	const settingsMenu = await elementReady(selectors.userMenuNewSidebar, {stopOnDomReady: false});
@@ -60,10 +51,10 @@ async function selectMenuItem(itemNumber: number): Promise<void> {
 	let selector;
 
 	// Wait for menu to show up
-	await elementReady(selectors.conversationMenuSelectorNewDesign, {stopOnDomReady: false});
+	await elementReady(selectors.conversationMenuSelector, {stopOnDomReady: false});
 
 	const items = document.querySelectorAll<HTMLElement>(
-		`${selectors.conversationMenuSelectorNewDesign} [role=menuitem]`,
+		`${selectors.conversationMenuSelector} [role=menuitem]`,
 	);
 
 	// Negative items will select from the end
@@ -82,22 +73,14 @@ async function selectOtherListViews(itemNumber: number): Promise<void> {
 	// In case one of other views is shown
 	clickBackButton();
 
-	const newSidebar = await isNewSidebar();
+	const items = document.querySelectorAll<HTMLElement>(
+		`${selectors.viewsMenu} span > a`,
+	);
 
-	if (newSidebar) {
-		const items = document.querySelectorAll<HTMLElement>(
-			`${selectors.viewsMenu} span > a`,
-		);
+	const selector = itemNumber <= items.length ? items[itemNumber - 1] : null;
 
-		const selector = itemNumber <= items.length ? items[itemNumber - 1] : null;
-
-		if (selector) {
-			selector.click();
-		}
-	} else {
-		await withSettingsMenu(() => {
-			selectMenuItem(itemNumber);
-		});
+	if (selector) {
+		selector.click();
 	}
 }
 
@@ -126,23 +109,9 @@ ipc.answerMain('new-room', async () => {
 });
 
 ipc.answerMain('log-out', async () => {
-	const useWorkChat = await ipc.callMain<undefined, boolean>('get-config-useWorkChat');
-	if (useWorkChat) {
-		document.querySelector<HTMLElement>('._5lxs._3qct._p')!.click();
-
-		// Menu creation is slow
-		setTimeout(() => {
-			const nodes = document.querySelectorAll<HTMLElement>(
-				'._54nq._9jo._558b._2n_z li:last-child a',
-			);
-
-			nodes[nodes.length - 1].click();
-		}, 250);
-	} else {
-		await withSettingsMenu(() => {
-			selectMenuItem(-1);
-		});
-	}
+	await withSettingsMenu(() => {
+		selectMenuItem(-1);
+	});
 });
 
 ipc.answerMain('find', () => {
@@ -605,12 +574,12 @@ In other words, you should only use this function within a callback that is prov
 */
 function isSelectedConversationGroup(): boolean {
 	// Individual conversations include an entry for "View Profile", which is type `a`
-	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelectorNewDesign} a[role=menuitem]`);
+	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelector} a[role=menuitem]`);
 }
 
 function isSelectedConversationMetaAI(): boolean {
 	// Meta AI menu only has 1 separator of type `hr`
-	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelectorNewDesign} hr:nth-of-type(2)`);
+	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelector} hr:nth-of-type(2)`);
 }
 
 async function archiveSelectedConversation(): Promise<void> {
