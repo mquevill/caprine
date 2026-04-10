@@ -290,12 +290,6 @@ Desktop notifications can be turned on in `Preferences`.
 
 You can toggle whether Caprine stays on top of other windows in the `Window`/`View` menu or with <kbd>Command/Control</kbd> <kbd>Shift</kbd> <kbd>t</kbd>.
 
-### Work Chat support
-
-Support for Work Chat: Messenger for [Workplace](https://www.facebook.com/workplace). You can switch to it in the `Caprine`/`File` menu.
-
-<div align="center"><img src="media/screenshot-work-chat.png" width="788"></div>
-
 ### Code blocks
 
 You can send code blocks by using [Markdown syntax](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code).
@@ -359,8 +353,6 @@ Toggle "Always on Top" | <kbd>Command/Control</kbd> <kbd>Shift</kbd> <kbd>t</kbd
 Toggle window menu     | <kbd>Alt</kbd> *(Windows/Linux only)*
 Toggle main window     | <kbd>Command</kbd> <kbd>Shift</kbd> <kbd>y</kbd> *(macOS only)*
 Toggle sidebar         | <kbd>Command/Control</kbd> <kbd>Shift</kbd> <kbd>s</kbd>
-Switch to Messenger    | <kbd>Command/Control</kbd> <kbd>Shift</kbd> <kbd>1</kbd>
-Switch to Workchat     | <kbd>Command/Control</kbd> <kbd>Shift</kbd> <kbd>2</kbd>
 Preferences            | <kbd>Command/Control</kbd> <kbd>,</kbd>
 
 ###### Tip
