@@ -6,12 +6,12 @@
 	</a>
 	<h1>Caprine</h1>
 	<p>
-		<b>Elegant Facebook Messages desktop app</b>
+		<b>Elegant Facebook Messenger desktop app</b>
 	</p>
 	<br>
 	<br>
 	<p>
-		Caprine is an unofficial and privacy-focused Facebook Messages app with many useful features.
+		Caprine is an unofficial and privacy-focused Facebook Messenger app with many useful features.
 	</p>
 	<b>
 		Caprine is feature complete. However, we welcome contributions for improvements and bug fixes.

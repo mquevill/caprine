@@ -731,7 +731,7 @@ ${debugInfo()}`;
 				submenu: preferencesSubmenu,
 			},
 			{
-				label: 'Messages Preferences…',
+				label: 'Messenger Preferences…',
 				accelerator: 'Command+,',
 				click() {
 					sendAction('show-preferences');
@@ -797,7 +797,7 @@ ${debugInfo()}`;
 					submenu: preferencesSubmenu,
 				},
 				{
-					label: 'Messages Settings',
+					label: 'Messenger Settings',
 					accelerator: 'Control+,',
 					click() {
 						sendAction('show-preferences');

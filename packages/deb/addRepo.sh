@@ -38,7 +38,7 @@ printf "      ___               _
      \___\__,_| .__/_| |_|_||_\___|
               |_|\n\n"
 
-printf " Elegant Facebook Messages desktop app\n\n"
+printf " Elegant Facebook Messenger desktop app\n\n"
 
 printf "*** Caprine installation script ***\n"
 printf -- "-----------------------------------\n"

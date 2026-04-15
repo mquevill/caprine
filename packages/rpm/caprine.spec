@@ -16,7 +16,7 @@ BuildRequires:  npm
 BuildRequires:  nodejs >= 20.0.0
 
 %description
-Caprine is an unofficial and privacy-focused Facebook Messages app with many useful features.
+Caprine is an unofficial and privacy-focused Facebook Messenger app with many useful features.
 
 %prep
 %autosetup
