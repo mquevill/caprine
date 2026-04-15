@@ -523,7 +523,6 @@ function createMainWindow(): BrowserWindow {
 
 	webContents.on('will-navigate', async (event, url) => {
 		const {hostname, pathname} = new URL(url);
-		console.log("pathname", pathname);
 
 		if (hostname === 'www.facebook.com') {
 			const allowedPaths = [

@@ -113,6 +113,10 @@ ipc.answerMain('new-conversation', async () => {
 	document.querySelector<HTMLElement>('[href="/messages/new/"]')!.click();
 });
 
+ipc.answerMain('return-home', async () => {
+	window.location.href = 'https://www.facebook.com/messages/';
+});
+
 ipc.answerMain('log-out', async () => {
 	await withFacebookSettingsMenu(() => {
 		selectMenuItem(-1);

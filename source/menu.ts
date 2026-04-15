@@ -39,6 +39,13 @@ export default async function updateMenu(): Promise<Menu> {
 
 	const switchItems: MenuItemConstructorOptions[] = [
 		{
+			label: 'Messenger Homepage',
+			accelerator: 'CommandOrControl+H',
+			click() {
+				sendAction('return-home');
+			},
+		},
+		{
 			label: 'Log Out',
 			click() {
 				sendAction('log-out');
