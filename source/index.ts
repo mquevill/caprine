@@ -531,6 +531,7 @@ function createMainWindow(): BrowserWindow {
 				'/checkpoint',
 				'/two_step_verification',
 				'/two_factor',
+				'/logout',
 			];
 
 			if (allowedPaths.some(path => pathname.startsWith(path))) {

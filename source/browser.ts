@@ -21,8 +21,8 @@ async function withMenu(
 	menuButtonElement.click();
 
 	// Wait for the menu to close before removing the 'hide-dropdowns' class
-	await elementReady('.x78zum5.xdt5ytf.x1n2onr6.xat3117.xxzkxad > div:nth-child(2) > div', {stopOnDomReady: false});
-	const menuLayer = document.querySelector('.x78zum5.xdt5ytf.x1n2onr6.xat3117.xxzkxad > div:nth-child(2) > div');
+	await elementReady('.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div', {stopOnDomReady: false});
+	const menuLayer = document.querySelector('.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div');
 
 	if (menuLayer) {
 		const observer = new MutationObserver(() => {
@@ -40,9 +40,16 @@ async function withMenu(
 	await callback();
 }
 
-async function withSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
+async function withMessagesSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
 	// Wait for navigation pane buttons to show up
-	const settingsMenu = await elementReady(selectors.userMenuNewSidebar, {stopOnDomReady: false});
+	const settingsMenu = await elementReady(selectors.messagesMenu, {stopOnDomReady: false});
+
+	await withMenu(settingsMenu as HTMLElement, callback);
+}
+
+async function withFacebookSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
+	// Wait for navigation pane buttons to show up
+	const settingsMenu = await elementReady(selectors.facebookMenu, {stopOnDomReady: false});
 
 	await withMenu(settingsMenu as HTMLElement, callback);
 }
@@ -50,11 +57,13 @@ async function withSettingsMenu(callback: () => Promise<void> | void): Promise<v
 async function selectMenuItem(itemNumber: number): Promise<void> {
 	let selector;
 
+	const menuSelector = selectors.facebookMenuSelector;
+
 	// Wait for menu to show up
-	await elementReady(selectors.conversationMenuSelector, {stopOnDomReady: false});
+	await elementReady(menuSelector, {stopOnDomReady: false});
 
 	const items = document.querySelectorAll<HTMLElement>(
-		`${selectors.conversationMenuSelector} [role=menuitem]`,
+		`${menuSelector} [role=listitem] [role=button]`,
 	);
 
 	// Negative items will select from the end
@@ -105,9 +114,10 @@ ipc.answerMain('new-conversation', async () => {
 });
 
 ipc.answerMain('log-out', async () => {
-	await withSettingsMenu(() => {
+	await withFacebookSettingsMenu(() => {
 		selectMenuItem(-1);
 	});
+	// TODO: Navigate back to Messages page after login
 });
 
 ipc.answerMain('find', () => {
@@ -613,7 +623,7 @@ async function deleteSelectedConversation(): Promise<void> {
 }
 
 async function openPreferences(): Promise<void> {
-	await withSettingsMenu(() => {
+	await withMessagesSettingsMenu(() => {
 		selectMenuItem(1);
 	});
 
