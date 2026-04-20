@@ -10,7 +10,9 @@ import {IToggleSounds} from './types';
 
 async function withMenu(
 	menuButtonElement: HTMLElement,
-	callback: () => Promise<void> | void,
+	menuLayerSelector: string,
+	menuSelector: string,
+	callback: (menuSelector: string) => Promise<void> | void,
 ): Promise<void> {
 	const {classList} = document.documentElement;
 
@@ -21,10 +23,12 @@ async function withMenu(
 	menuButtonElement.click();
 
 	// Wait for the menu to close before removing the 'hide-dropdowns' class
-	await elementReady('.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div', {stopOnDomReady: false});
-	const menuLayer = document.querySelector('.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div');
+	await elementReady(menuLayerSelector, {stopOnDomReady: false});
+	const menuLayer = document.querySelector(`${menuLayerSelector} [role=menu]`);
 
-	if (menuLayer) {
+	await elementReady(menuSelector, {stopOnDomReady: false});
+
+	if (menuLayer && menuLayer.hasChildNodes()) {
 		const observer = new MutationObserver(() => {
 			if (!menuLayer.hasChildNodes()) {
 				classList.remove('hide-dropdowns');
@@ -37,33 +41,43 @@ async function withMenu(
 		classList.remove('hide-dropdowns');
 	}
 
-	await callback();
+	await callback(menuSelector);
 }
 
-async function withMessagesSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
-	// Wait for navigation pane buttons to show up
-	const settingsMenu = await elementReady(selectors.messagesMenu, {stopOnDomReady: false});
+async function withFacebookSettingsMenu(callback: (menuSelector: string) => Promise<void> | void): Promise<void> {
+	// Wait for menu button to show up
+	const facebookMenuButton = await elementReady(selectors.facebookMenuButton, {stopOnDomReady: false});
 
-	await withMenu(settingsMenu as HTMLElement, callback);
+	await withMenu(facebookMenuButton as HTMLElement, selectors.facebookMenuLayer, selectors.facebookMenu, callback);
 }
 
-async function withFacebookSettingsMenu(callback: () => Promise<void> | void): Promise<void> {
-	// Wait for navigation pane buttons to show up
-	const settingsMenu = await elementReady(selectors.facebookMenu, {stopOnDomReady: false});
+async function withMessagesSettingsMenu(callback: (menuSelector: string) => Promise<void> | void): Promise<void> {
+	// Wait for menu button to show up
+	const messagesMenuButton = await elementReady(selectors.messagesMenuButton, {stopOnDomReady: false});
 
-	await withMenu(settingsMenu as HTMLElement, callback);
+	await withMenu(messagesMenuButton as HTMLElement, selectors.messagesMenuLayer, selectors.messagesMenu, callback);
 }
 
-async function selectMenuItem(itemNumber: number): Promise<void> {
+async function withConversationMenu(callback: (menuSelector: string) => void): Promise<void> {
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	let conversationMenuButton: HTMLElement | null = null;
+	const conversation = document.querySelector<HTMLElement>(selectors.selectedConversation)!.closest('[role=row]');
+
+	conversationMenuButton = conversation?.querySelector('.html-div > [role=button]') ?? null;
+
+	if (conversationMenuButton) {
+		await withMenu(conversationMenuButton, selectors.conversationMenuLayer, selectors.conversationMenu, callback);
+	}
+}
+
+async function selectMenuItem(menuSelector: string, itemNumber: number): Promise<void> {
 	let selector;
-
-	const menuSelector = selectors.facebookMenuSelector;
 
 	// Wait for menu to show up
 	await elementReady(menuSelector, {stopOnDomReady: false});
 
 	const items = document.querySelectorAll<HTMLElement>(
-		`${menuSelector} [role=listitem] [role=button]`,
+		`${menuSelector} div[role=menuitem], ${menuSelector} [role=listitem] [role=button]`,
 	);
 
 	// Negative items will select from the end
@@ -118,8 +132,8 @@ ipc.answerMain('return-home', async () => {
 });
 
 ipc.answerMain('log-out', async () => {
-	await withFacebookSettingsMenu(() => {
-		selectMenuItem(-1);
+	await withFacebookSettingsMenu(async menuSelector => {
+		selectMenuItem(menuSelector, -1);
 	});
 	// TODO: Navigate back to Messages page after login
 });
@@ -557,78 +571,67 @@ async function setZoom(zoomFactor: number): Promise<void> {
 	await ipc.callMain<number, void>('set-config-zoomFactor', zoomFactor);
 }
 
-async function withConversationMenu(callback: () => void): Promise<void> {
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	let menuButton: HTMLElement | null = null;
-	const conversation = document.querySelector<HTMLElement>(selectors.selectedConversation)!.closest(`${selectors.conversationList} > div`);
-
-	menuButton = conversation?.querySelector('[aria-label=Menu][role=button]') ?? null;
-
-	if (menuButton) {
-		await withMenu(menuButton, callback);
-	}
-}
-
 async function openMuteModal(): Promise<void> {
-	await withConversationMenu(() => {
-		selectMenuItem(2);
+	await withConversationMenu(menuSelector => {
+		selectMenuItem(menuSelector, 2);
 	});
 }
 
 /*
 These functions assume:
 - There is a selected conversation.
-- That the conversation already has its conversation menu open.
+- The conversation already has its conversation menu open.
+- The checks happen in this order.
 
 In other words, you should only use this function within a callback that is provided to `withConversationMenu()`, because `withConversationMenu()` makes sure to have the conversation menu open before executing the callback and closes the conversation menu afterwards.
 */
-function isSelectedConversationGroup(): boolean {
-	// Individual conversations include an entry for "View Profile", which is type `a`
-	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelector} a[role=menuitem]`);
+function isSelectedConversationSelfOrMetaAI(): boolean {
+	// Self and Meta AI menu do not have a separator of type `hr`
+	return !document.querySelector<HTMLElement>(`${selectors.conversationMenu} hr`);
 }
 
-function isSelectedConversationMetaAI(): boolean {
-	// Meta AI menu only has 1 separator of type `hr`
-	return !document.querySelector<HTMLElement>(`${selectors.conversationMenuSelector} hr:nth-of-type(2)`);
+function isSelectedConversationIndividual(): boolean {
+	// Individual conversations include an entry for "View Profile", which is type `a`
+	return !!document.querySelector<HTMLElement>(`${selectors.conversationMenu} a[role=menuitem]`);
 }
 
 async function archiveSelectedConversation(): Promise<void> {
-	await withConversationMenu(() => {
-		const [isGroup, isNotGroup, isMetaAI] = [-4, -3, -2];
+	await withConversationMenu(menuSelector => {
+		const [isSelfOrMetaAI, isIndividual, isGroup] = [-2, -3, -4];
 
 		let archiveMenuIndex;
-		if (isSelectedConversationMetaAI()) {
-			archiveMenuIndex = isMetaAI;
-		} else if (isSelectedConversationGroup()) {
-			archiveMenuIndex = isGroup;
+		if (isSelectedConversationSelfOrMetaAI()) {
+			archiveMenuIndex = isSelfOrMetaAI;
+		} else if (isSelectedConversationIndividual()) {
+			archiveMenuIndex = isIndividual;
 		} else {
-			archiveMenuIndex = isNotGroup;
+			archiveMenuIndex = isGroup;
 		}
 
-		selectMenuItem(archiveMenuIndex);
+		selectMenuItem(menuSelector, archiveMenuIndex);
 	});
 }
 
 async function deleteSelectedConversation(): Promise<void> {
-	await withConversationMenu(() => {
-		const [isGroup, isNotGroup, isMetaAI] = [-3, -2, -1];
+	await withConversationMenu(menuSelector => {
+		const [isIndividual, isSelfOrMetaAI, isGroup] = [-1, -2, -3];
 
 		let deleteMenuIndex;
-		if (isSelectedConversationMetaAI()) {
-			deleteMenuIndex = isMetaAI;
-		} else if (isSelectedConversationGroup()) {
-			deleteMenuIndex = isGroup;
+		if (isSelectedConversationSelfOrMetaAI()) {
+			deleteMenuIndex = isSelfOrMetaAI;
+		} else if (isSelectedConversationIndividual()) {
+			deleteMenuIndex = isIndividual;
 		} else {
-			deleteMenuIndex = isNotGroup;
+			deleteMenuIndex = isGroup;
 		}
 
-		selectMenuItem(deleteMenuIndex);
+		selectMenuItem(menuSelector, deleteMenuIndex);
 	});
 }
 
 async function openPreferences(): Promise<void> {
-	await withMessagesSettingsMenu(() => {
-		selectMenuItem(1);
+	await withMessagesSettingsMenu(menuSelector => {
+		selectMenuItem(menuSelector, 1);
 	});
 
 	await elementReady(selectors.preferencesSelector, {stopOnDomReady: false});

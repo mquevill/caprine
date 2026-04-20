@@ -15,14 +15,18 @@ export default {
 	closePreferencesButton: 'div[role=dialog] > div > div > div:nth-child(2) > [role=button]',
 	// TODO: Remove viewsMenu below
 	viewsMenu: '.x9f619.x1n2onr6.x1ja2u2z.x78zum5.xdt5ytf.x2lah0s.x193iq5w.xdj266r',
-	facebookMenu: '[role=button].xzsf02u.x1rg5ohu',
-	facebookMenuSelector: '[role=list].xdj266r.x14z9mp.xat24cr.x1lziwak.xexx8yu.xyri2b.x18d9i69.x1c1uobl',
-	messagesMenu: '[role=button].x14qfxbe.x1qhmfi1',
-	messagesMenuSelector: '',
+	facebookMenu: '[role=list].xdj266r.x14z9mp.xat24cr.x1lziwak.xexx8yu.xyri2b.x18d9i69.x1c1uobl',
+	facebookMenuButton: '[role=button].xzsf02u.x1rg5ohu',
+	facebookMenuLayer: '.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div',
+	messagesMenu: '#mw-inbox-settings-menu[role=menu].x1n2onr6.xcxhlts.xe5xk9h',
+	messagesMenuButton: '[role=button].x14qfxbe.x1qhmfi1',
+	messagesMenuLayer: '',
+	conversationMenu: '[role=menu].x1n2onr6.xe5xk9h:not(#mw-inbox-settings-menu)',
+	conversationMenuButton: '', // TODO: Define here, if possible. Currently determined in withConversationMenu
+	conversationMenuLayer: '.x78zum5.xdt5ytf.x1n2onr6.xpvvgw5.xxzkxad > div:nth-child(2) > div',
 	selectedConversation: '[role=navigation] [role=grid] [role=row] [role=gridcell] [role=link][aria-current=page]',
 	// ! Very fragile selector (most likely cause of hidden dialog issue)
 	preferencesSelector: '.x1n2onr6.x1ja2u2z.x1afcbsf.x78zum5.xdt5ytf.x1a2a7pz.x6ikm8r.x10wlt62.x71s49j.x1jx94hy.x1g2kw80.xxadwq3.x16n5opg.x3hh19s.xl7ujzl.x1kl8bxo.xhkep3z.xb3b7hn.xwhkkir.x1n7qst7.x17omtbh:has(.x1l90r2v.x1swvt13.x1pi30zi)',
 	// TODO: Fix this selector for new design
 	messengerSoundsSelector: '._374d ._6bkz',
-	conversationMenuSelector: '[role=menu]',
 };
