@@ -108,7 +108,7 @@ async function selectOtherListViews(itemNumber: number): Promise<void> {
 }
 
 function clickBackButton(): void {
-	const backButton = document.querySelector<HTMLElement>('._30yy._2oc9');
+	const backButton = document.querySelector<HTMLElement>('header [role="button"]');
 
 	if (backButton) {
 		backButton.click();
