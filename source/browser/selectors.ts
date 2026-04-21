@@ -31,4 +31,5 @@ export default {
 	messengerSoundsSelector: '._374d ._6bkz',
 	searchFacebook: '.x1ba4aug > [type="search"]',
 	searchMessenger: '.xu0aao5 > [type="search"]',
+	threadComposer: '.x78zum5.x2lah0s.x6ikm8r.x10wlt62.xexx8yu.x11lfxj5.x18d9i69.x135b78x.x1n2onr6',
 };
