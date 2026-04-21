@@ -139,7 +139,7 @@ ipc.answerMain('log-out', async () => {
 });
 
 ipc.answerMain('find', () => {
-	document.querySelector<HTMLElement>('[type="search"]')!.focus();
+	document.querySelector<HTMLElement>(selectors.searchMessenger)!.focus();
 });
 
 async function openSearchInConversation() {
