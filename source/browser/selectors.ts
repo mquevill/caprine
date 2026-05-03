@@ -20,7 +20,7 @@ export default {
 	facebookMenuLayer: '.xtijo5x.xv54qhq.x135b78x.xixxii4.x13vifvy.xzkaem6 > div:nth-child(2) > div',
 	messagesMenu: '#mw-inbox-settings-menu[role=menu].x1n2onr6.xcxhlts.xe5xk9h',
 	messagesMenuButton: '[role=button].x14qfxbe.x1qhmfi1',
-	messagesMenuLayer: '',
+	messagesMenuLayer: '.x78zum5.xdt5ytf.x1n2onr6.xpvvgw5.xxzkxad > div:nth-child(2) > div',
 	conversationMenu: '[role=menu].x1n2onr6.xe5xk9h:not(#mw-inbox-settings-menu)',
 	conversationMenuButton: '', // TODO: Define here, if possible. Currently determined in withConversationMenu
 	conversationMenuLayer: '.x78zum5.xdt5ytf.x1n2onr6.xpvvgw5.xxzkxad > div:nth-child(2) > div',

@@ -530,25 +530,19 @@ Press Command/Ctrl+R in Caprine to see your changes.
 		{
 			label: 'Show Main Chats',
 			click() {
-				sendAction('show-chats-view');
-			},
-		},
-		{
-			label: 'Show Marketplace Chats',
-			click() {
-				sendAction('show-marketplace-view');
+				sendAction('show-main-chats');
 			},
 		},
 		{
 			label: 'Show Message Requests',
 			click() {
-				sendAction('show-requests-view');
+				sendAction('show-message-requests');
 			},
 		},
 		{
 			label: 'Show Archived Chats',
 			click() {
-				sendAction('show-archive-view');
+				sendAction('show-archived-chats');
 			},
 		},
 	];

@@ -23,8 +23,8 @@ async function withMenu(
 	menuButtonElement.click();
 
 	// Wait for the menu to close before removing the 'hide-dropdowns' class
-	await elementReady(menuLayerSelector, {stopOnDomReady: false});
-	const menuLayer = document.querySelector(`${menuLayerSelector} [role=menu]`);
+	await elementReady(`${menuLayerSelector} [role=menu], ${menuLayerSelector} [role=list]`, {stopOnDomReady: false});
+	const menuLayer = document.querySelector(menuLayerSelector);
 
 	await elementReady(menuSelector, {stopOnDomReady: false});
 
@@ -86,21 +86,6 @@ async function selectMenuItem(menuSelector: string, itemNumber: number): Promise
 	} else {
 		selector = itemNumber <= items.length ? items[itemNumber - 1] : null;
 	}
-
-	if (selector) {
-		selector.click();
-	}
-}
-
-async function selectOtherListViews(itemNumber: number): Promise<void> {
-	// In case one of other views is shown
-	clickBackButton();
-
-	const items = document.querySelectorAll<HTMLElement>(
-		`${selectors.viewsMenu} span > a`,
-	);
-
-	const selector = itemNumber <= items.length ? items[itemNumber - 1] : null;
 
 	if (selector) {
 		selector.click();
@@ -270,20 +255,27 @@ ipc.answerMain('toggle-message-buttons', async () => {
 	document.body.classList.toggle('show-message-buttons', !showMessageButtons);
 });
 
-ipc.answerMain('show-chats-view', async () => {
-	await selectOtherListViews(1);
+ipc.answerMain('show-main-chats', async () => {
+	// In case one of other views is shown
+	clickBackButton();
 });
 
-ipc.answerMain('show-marketplace-view', async () => {
-	await selectOtherListViews(2);
+ipc.answerMain('show-message-requests', async () => {
+	// In case one of other views is shown
+	clickBackButton();
+
+	await withMessagesSettingsMenu(menuSelector => {
+		selectMenuItem(menuSelector, -4);
+	});
 });
 
-ipc.answerMain('show-requests-view', async () => {
-	await selectOtherListViews(3);
-});
+ipc.answerMain('show-archived-chats', async () => {
+	// In case one of other views is shown
+	clickBackButton();
 
-ipc.answerMain('show-archive-view', async () => {
-	await selectOtherListViews(4);
+	await withMessagesSettingsMenu(menuSelector => {
+		selectMenuItem(menuSelector, -3);
+	});
 });
 
 ipc.answerMain('toggle-video-autoplay', () => {
@@ -600,7 +592,7 @@ function isSelectedConversationSelfOrMetaAI(): boolean {
 
 function isSelectedConversationIndividual(): boolean {
 	// Individual conversations include an entry for "View Profile", which is type `a`
-	return !!document.querySelector<HTMLElement>(`${selectors.conversationMenu} a[role=menuitem]`);
+	return Boolean(document.querySelector<HTMLElement>(`${selectors.conversationMenu} a[role=menuitem]`));
 }
 
 async function archiveSelectedConversation(): Promise<void> {
